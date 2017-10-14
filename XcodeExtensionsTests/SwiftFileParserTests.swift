@@ -1,5 +1,5 @@
 //
-//  XcodeExtensionsTests.swift
+//  SwiftFileParserTests.swift
 //  XcodeExtensionsTests
 //
 //  Created by Михаил Мотыженков on 07.10.2017.
@@ -9,7 +9,7 @@
 import XCTest
 import SyncAsync
 
-class XcodeExtensionsTests: XCTestCase {
+class SwiftFileParserTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -44,7 +44,7 @@ class XcodeExtensionsTests: XCTestCase {
             }
         }
         """
-        let parser = SwiftParser(buffer: code)
+        let parser = SwiftFileParser(buffer: code)
         let result = try? parser.getFuncElements(startLineIndex: 12)
         guard let res = result else {
             XCTFail()
@@ -55,10 +55,10 @@ class XcodeExtensionsTests: XCTestCase {
         XCTAssertEqual(res.params.count, 2)
         XCTAssertEqual(res.params[0].body, "startLine: Int")
         XCTAssertEqual(res.params[0].name, "startLine")
-        XCTAssertEqual(res.params[0].type, "Int")
+        XCTAssertEqual(res.params[0].type.body, "Int")
         XCTAssertEqual(res.params[1].body, "completionBlock: @escaping (result: Int, error: Error?) -> Void")
         XCTAssertEqual(res.params[1].name, "completionBlock")
-        XCTAssertEqual(res.params[1].type, "@escaping (result: Int, error: Error?) -> Void")
+        XCTAssertEqual(res.params[1].type.body, "@escaping (result: Int, error: Error?) -> Void")
         let body = """
         {
                 guard let range = lines[startLine].range(of: "func") else {
@@ -69,7 +69,7 @@ class XcodeExtensionsTests: XCTestCase {
             }
         """
         XCTAssertEqual(res.body, body)
-        XCTAssertEqual(res.endLineIndex, code.count-3)
+        XCTAssertEqual(res.endLineIndex, 18)
         XCTAssertEqual(res.postAttribs, " throws -> Void ")
     }
 }

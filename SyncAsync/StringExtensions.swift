@@ -34,7 +34,7 @@ extension String
             {
                 if !foundOpenChar
                 {
-                    throw SyncAsyncError
+                    throw StringExtensionError
                 }
                 depth -= 1
                 if depth == 0
@@ -46,14 +46,14 @@ extension String
                 }
             }
         }
-        throw SyncAsyncError
+        throw StringExtensionError
     }
     
     func getInner(startIndex: Int, openChar: Character, closeChar: Character) throws -> (substring: Substring, lowerIndex: String.Index, upperIndex: String.Index)
     {
         guard let result = try? getInnerWithOpenCloseCharacters(startIndex:startIndex, openChar:openChar, closeChar:closeChar) else
         {
-            throw SyncAsyncError
+            throw StringExtensionError
         }
         return (substring: Substring(result.substring.characters.dropFirst().dropLast()),
                lowerIndex: result.lowerIndex,

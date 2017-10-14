@@ -1,5 +1,5 @@
 //
-//  SwiftParser.swift
+//  SwiftFileParser.swift
 //  SyncAsync
 //
 //  Created by Михаил Мотыженков on 07.10.2017.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SwiftParser
+struct SwiftFileParser
 {    
     private let lines: [Substring]
     private let buffer: String
@@ -19,34 +19,34 @@ struct SwiftParser
         self.lines = buffer.split(separator: "\n", omittingEmptySubsequences: false)
     }
     
-    func getFuncElements(startLineIndex: Int) throws -> (attribs: String, name: String, params: [SwiftFuncParam], postAttribs: String, body: String, endLineIndex: Int)
+    func getFuncElements(startLineIndex: Int) throws -> (attribs: String, name: String, params: [SwiftParam], postAttribs: String, body: String, endLineIndex: Int)
     {
         let startLine = lines[startLineIndex]
         guard let index = startLine.index(of: "(") else {
-            throw SyncAsyncError
+            throw DefaultError
         }
         let attribsAndNameSubstring = startLine[..<index]
         guard let nameStartIndex = try? getNameStartIndex(line: attribsAndNameSubstring) else {
-            throw SyncAsyncError
+            throw DefaultError
         }
         let name = String(attribsAndNameSubstring[nameStartIndex..<attribsAndNameSubstring.endIndex])
         let attribs = String(attribsAndNameSubstring[attribsAndNameSubstring.startIndex..<nameStartIndex].trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
         
         guard let paramsResult = try? buffer.getInner(startIndex: index.encodedOffset, openChar: "(", closeChar: ")") else {
-            throw SyncAsyncError
+            throw DefaultError
         }
-        guard let paramsStrings = try? SwiftFuncParam.getParamsStrings(line: paramsResult.substring) else {
-            throw SyncAsyncError
+        guard let paramsStrings = try? SwiftParamParser.getParamsStrings(line: paramsResult.substring) else {
+            throw DefaultError
         }
-        let params = try! paramsStrings.map { (string) -> SwiftFuncParam in
-            guard let result = try? SwiftFuncParam(body: string) else {
-                throw SyncAsyncError
+        let params = try! paramsStrings.map { (string) -> SwiftParam in
+            guard let result = try? SwiftParamParser.getParam(body: string) else {
+                throw DefaultError
             }
             return result
         }
         
         guard let bodyResult = try? buffer.getInnerWithOpenCloseCharacters(startIndex: paramsResult.upperIndex.encodedOffset + 1, openChar: "{", closeChar: "}") else {
-            throw SyncAsyncError
+            throw DefaultError
         }
         let newLines = bodyResult.substring.filter { (char) -> Bool in
             char == "\n"
@@ -81,7 +81,7 @@ struct SwiftParser
                 }
             }
         }
-        throw SyncAsyncError
+        throw DefaultError
     }
     
     private func getNameStartIndex(line: Substring) throws -> String.Index
@@ -95,6 +95,6 @@ struct SwiftParser
                 return line.index(line.startIndex, offsetBy: i+1)
             }
         }
-        throw SyncAsyncError
+        throw DefaultError
     }
 }

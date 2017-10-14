@@ -9,7 +9,6 @@
 import Foundation
 import XcodeKit
 
-let SyncAsyncError = NSError(domain: "SyncAsync", code: -1, userInfo: nil)
 let StandardIndentation = "    "
 
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
@@ -26,23 +25,23 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         {
             objectiveC(completionHandler: completionHandler)
         }
-        completionHandler(SyncAsyncError)
+        completionHandler(DefaultError)
     }
     
     func swift(buffer: XCSourceTextBuffer, startLineIndex: Int, completionHandler: @escaping (Error?) -> Void)
     {
-        let parser = SwiftParser(buffer: buffer.completeBuffer)
+        let parser = SwiftFileParser(buffer: buffer.completeBuffer)
         guard let funcElements = try? parser.getFuncElements(startLineIndex: startLineIndex) else
         {
-            completionHandler(SyncAsyncError)
+            completionHandler(DefaultError)
             return
         }
         let closures = funcElements.params.filter({ (param) -> Bool in
-            return param.isClosure && param.isEscaping
+            return isSwiftEscapingClosure(type: param.type)
         })
         if closures.count == 0 || closures.count > 2
         {
-            completionHandler(SyncAsyncError)
+            completionHandler(DefaultError)
             return
         }
         var result = "\n"
@@ -55,7 +54,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         for i in 0..<funcElements.params.count
         {
             let param = funcElements.params[i]
-            if !(param.isClosure && param.isEscaping)
+            if !isSwiftEscapingClosure(type: param.type)
             {
                 if i > 0
                 {
@@ -64,11 +63,11 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
                 result += param.body
             }
         }
-        guard let firstLineIndentation = try? SwiftParser.getFuncFirstLineIndentation(funcBody: funcElements.body) else {
-            completionHandler(SyncAsyncError)
+        guard let firstLineIndentation = try? SwiftFileParser.getFuncFirstLineIndentation(funcBody: funcElements.body) else {
+            completionHandler(DefaultError)
             return
         }
-        let newBody = getSwiftNewBody(firstLineIndentation: firstLineIndentation, funcName: funcElements.name, params: funcElements.params)
+        let newBody = createNewFuncBodySwift(firstLineIndentation: firstLineIndentation, funcName: funcElements.name, params: funcElements.params)
         result += ")\(funcElements.postAttribs){\n\(newBody)\n\(funcIndentation)}"
         
         if buffer.lines.count == funcElements.endLineIndex-1
@@ -79,10 +78,19 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         completionHandler(nil)
     }
     
-    private func getSwiftNewBody(firstLineIndentation: String, funcName: String, params: [SwiftFuncParam]) -> String
+    private func isSwiftEscapingClosure(type: SwiftType) -> Bool
+    {
+        if let closure = type as? SwiftClosure {
+            return closure.isEscaping
+        }
+        return false
+    }
+    
+    private func createNewFuncBodySwift(firstLineIndentation: String, funcName: String, params: [SwiftParam]) -> String
     {
         var result = "\(firstLineIndentation)let semaphore = DispatchSemaphore(value: 0)"
         result += "\n\(firstLineIndentation)\(funcName)("
+        
         for i in 0..<params.count
         {
             let param = params[i]
@@ -90,20 +98,21 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             {
                 result += ", "
             }
-            if param.isClosure && param.isEscaping
+            if isSwiftEscapingClosure(type: param.type)
             {
-                result += "\(param.name): {"
-                if param.params.count > 0
+                result += "\(param.name!): {"
+                let closure = param.type as! SwiftClosure
+                if closure.params.count > 0
                 {
                     result += " ("
-                    for j in 0..<param.params.count
+                    for j in 0..<closure.params.count
                     {
-                        let p = param.params[j]
+                        let p = closure.params[j]
                         if j > 0
                         {
                             result += ", "
                         }
-                        result += p.name
+                        result += p.name ?? closure.body
                     }
                     result += ") in"
                 }
@@ -127,7 +136,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             }
             else
             {
-                result += "\(param.name): \(param.name)"
+                result += "\(param.name!): \(param.name!)"
             }
         }
         result += ")"
@@ -137,7 +146,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
     
     func objectiveC(completionHandler: @escaping (Error?) -> Void )
     {
-        completionHandler(SyncAsyncError)
+        completionHandler(DefaultError)
     }
     
 }
