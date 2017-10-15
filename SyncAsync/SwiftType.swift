@@ -42,6 +42,29 @@ class SwiftTuple: SwiftType
         super.init(body: body, isCustom: isCustom, genericType: nil)
     }
     
+    convenience init(params: [SwiftParam])
+    {
+        var body = "("
+        for i in 0..<params.count
+        {
+            if i > 0
+            {
+                body += ", "
+            }
+            let param = params[i]
+            if let paramName = param.name
+            {
+                body += "\(paramName): \(param.type.body)"
+            }
+            else
+            {
+                body += "\(param.type.body)"
+            }
+        }
+        body += ")"
+        self.init(body: body, isCustom: false, params: params)
+    }
+    
     static func == (lhs: SwiftTuple, rhs: SwiftType) -> Bool
     {
         guard let rhsTuple = rhs as? SwiftTuple else {

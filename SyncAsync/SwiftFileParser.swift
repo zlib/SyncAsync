@@ -48,11 +48,16 @@ struct SwiftFileParser
         guard let bodyResult = try? buffer.getInnerWithOpenCloseCharacters(startIndex: paramsResult.upperIndex.encodedOffset + 1, openChar: "{", closeChar: "}") else {
             throw DefaultError
         }
-        let newLines = bodyResult.substring.filter { (char) -> Bool in
+        var newLines = bodyResult.substring.filter { (char) -> Bool in
             char == "\n"
         }
+        
         let postAttribsStartIndex = buffer.index(after: paramsResult.upperIndex)
         let postAttribs = buffer[postAttribsStartIndex..<bodyResult.lowerIndex]
+        if postAttribs.contains("\n")
+        {
+            newLines += "\n"
+        }
         
         return (attribs: attribs, name: name, params: params, postAttribs: String(postAttribs), body: String(bodyResult.substring), endLineIndex: startLineIndex + newLines.count)
     }

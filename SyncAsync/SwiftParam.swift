@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SwiftParam
+class SwiftParam
 {
     let body: String
     let name: String?
@@ -27,5 +27,17 @@ extension SwiftParam: Equatable
     static func == (lhs: SwiftParam, rhs: SwiftParam) -> Bool
     {
         return lhs.body == rhs.body && lhs.name == rhs.name && lhs.type == rhs.type
+    }
+}
+
+class SwiftParamClosure: SwiftParam
+{
+    var isErrorClosure = false
+    var closureErrorParamIndex = -1
+    var closureIndex = -1
+    
+    init(param: SwiftParam)
+    {
+        super.init(body: param.body, name: param.name, type: param.type)
     }
 }
