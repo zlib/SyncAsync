@@ -14,6 +14,7 @@ class SwiftParamParser
     {
         let trimmedBody = body.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         var name: String?
+        var externalName: String? = nil
         var type: SwiftType
 
         if let colonIndex = (trimmedBody.index { (char) -> Bool in
@@ -21,6 +22,12 @@ class SwiftParamParser
         })
         {
             name = String(trimmedBody[trimmedBody.startIndex..<colonIndex])
+            if name!.contains(" ")
+            {
+                let names = name!.split(separator: " ")
+                externalName = String(names[0])
+                name = String(names[1])
+            }
             type = try SwiftTypeParser.getType(fromString: String(trimmedBody[trimmedBody.index(after: colonIndex)..<trimmedBody.endIndex].trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)))
         }
         else
@@ -28,7 +35,7 @@ class SwiftParamParser
             name = nil
             type = try SwiftTypeParser.getType(fromString: trimmedBody)
         }
-        return SwiftParam(body: trimmedBody, name: name, type: type)
+        return SwiftParam(body: trimmedBody, name: name, externalName: externalName, type: type)
     }
     
     static func getParamsStrings(line: Substring) throws -> [String]

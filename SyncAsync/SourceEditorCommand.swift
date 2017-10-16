@@ -42,10 +42,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             completionHandler(DefaultError)
             return
         }
-        let params = funcElements.params.map { (param) -> SwiftParamClosure in
-            return SwiftParamClosure(param: param)
-        }
-        var closures = params.filter({ (param) -> Bool in
+        var closures = funcElements.params.filter({ (param) -> Bool in
             return isSwiftEscapingClosure(type: param.type)
         })
         if closures.count == 0 || closures.count > 2
@@ -106,7 +103,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             completionHandler(DefaultError)
             return
         }
-        guard let newBody = try? createNewFuncBodySwift(firstLineIndentation: firstLineIndentation, funcName: funcElements.name, params: params, returnType: returnType, isThrowing: isThrowing) else {
+        guard let newBody = try? createNewFuncBodySwift(firstLineIndentation: firstLineIndentation, funcName: funcElements.name, params: funcElements.params, returnType: returnType, isThrowing: isThrowing) else {
             completionHandler(DefaultError)
             return
         }
@@ -120,7 +117,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         completionHandler(nil)
     }
     
-    private func getReturnType(closures: [SwiftParamClosure]) -> SwiftType
+    private func getReturnType(closures: [SwiftParam]) -> SwiftType
     {
         var result = [SwiftParam]()
         for i in 0..<closures.count
@@ -137,9 +134,8 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
                 {
                     continue
                 }
-                let param = SwiftParamClosure(param: params[j])
-                param.closureIndex = i
-                result.append(param)
+                params[j].closureIndex = i
+                result.append(params[j])
             }
         }
         if result.count == 0
@@ -171,7 +167,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         return false
     }
     
-    private func createNewFuncBodySwift(firstLineIndentation: String, funcName: String, params: [SwiftParamClosure], returnType: SwiftType, isThrowing: Bool) throws -> String
+    private func createNewFuncBodySwift(firstLineIndentation: String, funcName: String, params: [SwiftParam], returnType: SwiftType, isThrowing: Bool) throws -> String
     {
         var result = "\(firstLineIndentation)let semaphore = DispatchSemaphore(value: 0)"
         let hasReturnValue = returnType.body != "Void"
@@ -192,12 +188,17 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             {
                 result += ", "
             }
+            let name = param.externalName ?? param.name!
             if isSwiftEscapingClosure(type: param.type)
             {
-                result += "\(param.name!): {"
+                result += "\(name): {"
                 let closure = param.type as! SwiftClosure
                 var indexOfErrorParam = -1
-                if closure.params.count > 0
+                if param.isErrorClosure
+                {
+                    result += " error in\n\(firstLineIndentation)\(StandardIndentation)resultError = error"
+                }
+                else if closure.params.count > 0
                 {
                     result += " ("
                     for j in 0..<closure.params.count
@@ -216,10 +217,6 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
                         result += name
                     }
                     result += ") in"
-                }
-                else if param.isErrorClosure
-                {
-                    result += " error in\n\(firstLineIndentation)\(StandardIndentation)resultError = error"
                 }
                 
                 if indexOfErrorParam >= 0
@@ -271,7 +268,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             }
             else
             {
-                result += "\(param.name!): \(param.name!)"
+                result += "\(name): \(param.name!)"
             }
         }
         result += ")"
