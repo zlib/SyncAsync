@@ -8,10 +8,16 @@
 
 import Foundation
 
+let numberTypes: Set<String> = ["Float", "Double", "Int", "Int8", "Int16", "Int32", "Int64", "UInt", "UInt8", "UInt16", "UInt32", "UInt64"]
+let knownStartSimpleTypes: Set<String> = ["AnyObject", "String", "Error"]
+let otherSimpleTypes: Set<String> = ["Bool", "Any", "Void"]
+let knownGenericTypes: Set<String> = ["Array", "Set", "Dictionary"]
+
 class SwiftTypeParser
 {
-    static let knownSimpleTypes: Set<String> = ["AnyObject", "AnyObject?", "String", "String?", "Error", "Error?", "Int", "Float", "Double", "Bool", "Any", "Void"]
-    static let knownGenericTypes: Set<String> = ["Array", "Set", "Dictionary"]
+    static var simpleTypes: Set<String> = {
+        return numberTypes.union(otherSimpleTypes)
+    }()
     
     static func getType(fromString body: String) throws -> SwiftType
     {
@@ -40,9 +46,16 @@ class SwiftTypeParser
     
     static func getType(fromString body: String, genericType: SwiftType?) throws -> SwiftType
     {
-        for string in knownSimpleTypes
+        for string in simpleTypes
         {
             if body == string
+            {
+                return SwiftType(body: body, isCustom: false, genericType: genericType)
+            }
+        }
+        for string in knownStartSimpleTypes
+        {
+            if body.hasPrefix(string)
             {
                 return SwiftType(body: body, isCustom: false, genericType: genericType)
             }

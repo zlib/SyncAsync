@@ -173,7 +173,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         let hasReturnValue = returnType.body != "Void"
         if hasReturnValue
         {
-            result += "\n\(firstLineIndentation)var syncResult: \(returnType.body)"
+            result += "\n\(firstLineIndentation)var syncResult: \(returnType.body) = \(returnType.defaultValue())"
         }
         if isThrowing
         {
@@ -191,80 +191,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             let name = param.externalName ?? param.name!
             if isSwiftEscapingClosure(type: param.type)
             {
-                result += "\(name): {"
-                let closure = param.type as! SwiftClosure
-                var indexOfErrorParam = -1
-                if param.isErrorClosure
-                {
-                    result += " error in\n\(firstLineIndentation)\(StandardIndentation)resultError = error"
-                }
-                else if closure.params.count > 0
-                {
-                    result += " ("
-                    for j in 0..<closure.params.count
-                    {
-                        let p = closure.params[j]
-                        if j > 0
-                        {
-                            result += ", "
-                        }
-                        var name = p.name ?? "param\(j)"
-                        if p.name == "error" || p.type.body.hasPrefix("Error")
-                        {
-                            indexOfErrorParam = j
-                            name = "error"
-                        }
-                        result += name
-                    }
-                    result += ") in"
-                }
-                
-                if indexOfErrorParam >= 0
-                {
-                    let error = closure.params[indexOfErrorParam].name ?? "error"
-                    result += "\n\(firstLineIndentation)\(StandardIndentation)resultError = \(error)"
-                }
-                if hasReturnValue && !param.isErrorClosure
-                {
-                    result += "\n\(firstLineIndentation)\(StandardIndentation)syncResult = "
-                    if closure.params.count > 0
-                    {
-                        if (closure.params.count == 1 || (closure.params.count == 2 && indexOfErrorParam >= 0)) && indexOfErrorParam != 0
-                        {
-                            result += closure.params[0].name ?? "param0"
-                        }
-                        else
-                        {
-                            guard let tuple = returnType as? SwiftTuple else {
-                                throw DefaultError
-                            }
-                            result += "("
-                            for j in 0..<closure.params.count
-                            {
-                                if indexOfErrorParam == j
-                                {
-                                    continue
-                                }
-                                let p = closure.params[j]
-                                if j > 0
-                                {
-                                    result += ", "
-                                }
-                                if let tupleName = tuple.params[j].name, let paramName = p.name
-                                {
-                                    result += "\(tupleName): \(paramName)"
-                                }
-                                else
-                                {
-                                    result += "param\(j)"
-                                }
-                            }
-                            result += ")"
-                        }
-                    }
-                }
-                result += "\n\(firstLineIndentation)\(StandardIndentation)semaphore.signal()"
-                result += "\n\(firstLineIndentation)}"
+                try createClosureBody(param: param, name: name, firstLineIndentation: firstLineIndentation, hasReturnValue: hasReturnValue, returnType: returnType, result: &result)
             }
             else
             {
@@ -284,6 +211,84 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             result += "\n\(firstLineIndentation)return syncResult"
         }
         return result
+    }
+    
+    private func createClosureBody(param: SwiftParam, name: String, firstLineIndentation: String, hasReturnValue: Bool, returnType: SwiftType, result: inout String) throws
+    {
+        result += "\(name): {"
+        let closure = param.type as! SwiftClosure
+        var indexOfErrorParam = -1
+        if param.isErrorClosure
+        {
+            result += " error in\n\(firstLineIndentation)\(StandardIndentation)resultError = error"
+        }
+        else if closure.params.count > 0
+        {
+            result += " ("
+            for j in 0..<closure.params.count
+            {
+                let p = closure.params[j]
+                if j > 0
+                {
+                    result += ", "
+                }
+                var name = p.name ?? "param\(j)"
+                if p.name == "error" || p.type.body.hasPrefix("Error")
+                {
+                    indexOfErrorParam = j
+                    name = "error"
+                }
+                result += name
+            }
+            result += ") in"
+        }
+        
+        if indexOfErrorParam >= 0
+        {
+            let error = closure.params[indexOfErrorParam].name ?? "error"
+            result += "\n\(firstLineIndentation)\(StandardIndentation)resultError = \(error)"
+        }
+        if hasReturnValue && !param.isErrorClosure
+        {
+            result += "\n\(firstLineIndentation)\(StandardIndentation)syncResult = "
+            if closure.params.count > 0
+            {
+                if (closure.params.count == 1 || (closure.params.count == 2 && indexOfErrorParam >= 0)) && indexOfErrorParam != 0
+                {
+                    result += closure.params[0].name ?? "param0"
+                }
+                else
+                {
+                    guard let tuple = returnType as? SwiftTuple else {
+                        throw DefaultError
+                    }
+                    result += "("
+                    for j in 0..<closure.params.count
+                    {
+                        if indexOfErrorParam == j
+                        {
+                            continue
+                        }
+                        let p = closure.params[j]
+                        if j > 0
+                        {
+                            result += ", "
+                        }
+                        if let tupleName = tuple.params[j].name, let paramName = p.name
+                        {
+                            result += "\(tupleName): \(paramName)"
+                        }
+                        else
+                        {
+                            result += "param\(j)"
+                        }
+                    }
+                    result += ")"
+                }
+            }
+        }
+        result += "\n\(firstLineIndentation)\(StandardIndentation)semaphore.signal()"
+        result += "\n\(firstLineIndentation)}"
     }
     
     func objectiveC(completionHandler: @escaping (Error?) -> Void )
