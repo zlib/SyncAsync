@@ -26,7 +26,7 @@
 		7C77312F1F891C130058A911 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C77312E1F891C130058A911 /* Cocoa.framework */; };
 		7C7731321F891C130058A911 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7731311F891C130058A911 /* SourceEditorExtension.swift */; };
 		7C7731341F891C130058A911 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7731331F891C130058A911 /* SourceEditorCommand.swift */; };
-		7C7731391F891C130058A911 /* SyncAsync.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7C77312C1F891C130058A911 /* SyncAsync.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7C7731391F891C130058A911 /* SyncAsyncExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7C77312C1F891C130058A911 /* SyncAsyncExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7C7731411F8930410058A911 /* SwiftFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7731401F8930410058A911 /* SwiftFileParser.swift */; };
 		7C7731491F8932A10058A911 /* SwiftFileParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7731481F8932A10058A911 /* SwiftFileParserTests.swift */; };
 		7C7731521F89335F0058A911 /* SwiftFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7731401F8930410058A911 /* SwiftFileParser.swift */; };
@@ -59,7 +59,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				7C7731391F891C130058A911 /* SyncAsync.appex in Embed App Extensions */,
+				7C7731391F891C130058A911 /* SyncAsyncExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,21 +74,21 @@
 		7C0B68CA1F92A8A800409B44 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		7C0B68CD1F92B56A00409B44 /* SwiftParamParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftParamParser.swift; sourceTree = "<group>"; };
 		7C0B68D01F97C15C00409B44 /* SwiftTypeDefaultValueCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTypeDefaultValueCreator.swift; sourceTree = "<group>"; };
-		7C7731151F891C080058A911 /* XcodeExtensions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XcodeExtensions.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C7731151F891C080058A911 /* SyncAsync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SyncAsync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C7731181F891C080058A911 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7C77311A1F891C080058A911 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7C77311C1F891C080058A911 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C77311F1F891C080058A911 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7C7731211F891C080058A911 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C7731221F891C080058A911 /* XcodeExtensions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XcodeExtensions.entitlements; sourceTree = "<group>"; };
-		7C77312C1F891C130058A911 /* SyncAsync.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SyncAsync.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C77312C1F891C130058A911 /* SyncAsyncExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SyncAsyncExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C77312E1F891C130058A911 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7C7731311F891C130058A911 /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
 		7C7731331F891C130058A911 /* SourceEditorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorCommand.swift; sourceTree = "<group>"; };
 		7C7731351F891C130058A911 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C7731361F891C130058A911 /* SyncAsync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SyncAsync.entitlements; sourceTree = "<group>"; };
 		7C7731401F8930410058A911 /* SwiftFileParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftFileParser.swift; sourceTree = "<group>"; };
-		7C7731461F8932A10058A911 /* XcodeExtensionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XcodeExtensionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C7731461F8932A10058A911 /* SyncAsyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SyncAsyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C7731481F8932A10058A911 /* SwiftFileParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftFileParserTests.swift; sourceTree = "<group>"; };
 		7C77314A1F8932A10058A911 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C7731531F89742B0058A911 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -135,9 +135,9 @@
 		7C7731161F891C080058A911 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7C7731151F891C080058A911 /* XcodeExtensions.app */,
-				7C77312C1F891C130058A911 /* SyncAsync.appex */,
-				7C7731461F8932A10058A911 /* XcodeExtensionsTests.xctest */,
+				7C7731151F891C080058A911 /* SyncAsync.app */,
+				7C77312C1F891C130058A911 /* SyncAsyncExtension.appex */,
+				7C7731461F8932A10058A911 /* SyncAsyncTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,9 +196,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7C7731141F891C080058A911 /* XcodeExtensions */ = {
+		7C7731141F891C080058A911 /* SyncAsync */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7C7731251F891C080058A911 /* Build configuration list for PBXNativeTarget "XcodeExtensions" */;
+			buildConfigurationList = 7C7731251F891C080058A911 /* Build configuration list for PBXNativeTarget "SyncAsync" */;
 			buildPhases = (
 				7C7731111F891C080058A911 /* Sources */,
 				7C7731121F891C080058A911 /* Frameworks */,
@@ -210,14 +210,14 @@
 			dependencies = (
 				7C7731381F891C130058A911 /* PBXTargetDependency */,
 			);
-			name = XcodeExtensions;
+			name = SyncAsync;
 			productName = XcodeExtensions;
-			productReference = 7C7731151F891C080058A911 /* XcodeExtensions.app */;
+			productReference = 7C7731151F891C080058A911 /* SyncAsync.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7C77312B1F891C130058A911 /* SyncAsync */ = {
+		7C77312B1F891C130058A911 /* SyncAsyncExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7C77313A1F891C130058A911 /* Build configuration list for PBXNativeTarget "SyncAsync" */;
+			buildConfigurationList = 7C77313A1F891C130058A911 /* Build configuration list for PBXNativeTarget "SyncAsyncExtension" */;
 			buildPhases = (
 				7C7731281F891C130058A911 /* Sources */,
 				7C7731291F891C130058A911 /* Frameworks */,
@@ -227,14 +227,14 @@
 			);
 			dependencies = (
 			);
-			name = SyncAsync;
+			name = SyncAsyncExtension;
 			productName = SyncAsync;
-			productReference = 7C77312C1F891C130058A911 /* SyncAsync.appex */;
+			productReference = 7C77312C1F891C130058A911 /* SyncAsyncExtension.appex */;
 			productType = "com.apple.product-type.xcode-extension";
 		};
-		7C7731451F8932A10058A911 /* XcodeExtensionsTests */ = {
+		7C7731451F8932A10058A911 /* SyncAsyncTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7C77314D1F8932A10058A911 /* Build configuration list for PBXNativeTarget "XcodeExtensionsTests" */;
+			buildConfigurationList = 7C77314D1F8932A10058A911 /* Build configuration list for PBXNativeTarget "SyncAsyncTests" */;
 			buildPhases = (
 				7C7731421F8932A10058A911 /* Sources */,
 				7C7731431F8932A10058A911 /* Frameworks */,
@@ -245,9 +245,9 @@
 			dependencies = (
 				7C7731511F8932CD0058A911 /* PBXTargetDependency */,
 			);
-			name = XcodeExtensionsTests;
+			name = SyncAsyncTests;
 			productName = XcodeExtensionsTests;
-			productReference = 7C7731461F8932A10058A911 /* XcodeExtensionsTests.xctest */;
+			productReference = 7C7731461F8932A10058A911 /* SyncAsyncTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -274,7 +274,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7C7731101F891C080058A911 /* Build configuration list for PBXProject "XcodeExtensions" */;
+			buildConfigurationList = 7C7731101F891C080058A911 /* Build configuration list for PBXProject "SyncAsync" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -287,9 +287,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7C7731141F891C080058A911 /* XcodeExtensions */,
-				7C77312B1F891C130058A911 /* SyncAsync */,
-				7C7731451F8932A10058A911 /* XcodeExtensionsTests */,
+				7C7731141F891C080058A911 /* SyncAsync */,
+				7C77312B1F891C130058A911 /* SyncAsyncExtension */,
+				7C7731451F8932A10058A911 /* SyncAsyncTests */,
 			);
 		};
 /* End PBXProject section */
@@ -369,12 +369,12 @@
 /* Begin PBXTargetDependency section */
 		7C7731381F891C130058A911 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7C77312B1F891C130058A911 /* SyncAsync */;
+			target = 7C77312B1F891C130058A911 /* SyncAsyncExtension */;
 			targetProxy = 7C7731371F891C130058A911 /* PBXContainerItemProxy */;
 		};
 		7C7731511F8932CD0058A911 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7C77312B1F891C130058A911 /* SyncAsync */;
+			target = 7C77312B1F891C130058A911 /* SyncAsyncExtension */;
 			targetProxy = 7C7731501F8932CD0058A911 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -439,7 +439,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -490,7 +490,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -508,6 +508,7 @@
 				DEVELOPMENT_TEAM = EYA8HNQG85;
 				INFOPLIST_FILE = XcodeExtensions/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.motyzhenkov.XcodeExtensions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -525,6 +526,7 @@
 				DEVELOPMENT_TEAM = EYA8HNQG85;
 				INFOPLIST_FILE = XcodeExtensions/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.motyzhenkov.XcodeExtensions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -594,7 +596,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7C7731101F891C080058A911 /* Build configuration list for PBXProject "XcodeExtensions" */ = {
+		7C7731101F891C080058A911 /* Build configuration list for PBXProject "SyncAsync" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C7731231F891C080058A911 /* Debug */,
@@ -603,7 +605,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7C7731251F891C080058A911 /* Build configuration list for PBXNativeTarget "XcodeExtensions" */ = {
+		7C7731251F891C080058A911 /* Build configuration list for PBXNativeTarget "SyncAsync" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C7731261F891C080058A911 /* Debug */,
@@ -612,7 +614,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7C77313A1F891C130058A911 /* Build configuration list for PBXNativeTarget "SyncAsync" */ = {
+		7C77313A1F891C130058A911 /* Build configuration list for PBXNativeTarget "SyncAsyncExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C77313B1F891C130058A911 /* Debug */,
@@ -621,7 +623,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7C77314D1F8932A10058A911 /* Build configuration list for PBXNativeTarget "XcodeExtensionsTests" */ = {
+		7C77314D1F8932A10058A911 /* Build configuration list for PBXNativeTarget "SyncAsyncTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C77314E1F8932A10058A911 /* Debug */,
