@@ -72,4 +72,30 @@ class SwiftFileParserTests: XCTestCase {
         XCTAssertEqual(res.endLineIndex, 18)
         XCTAssertEqual(res.postAttribs, " throws -> Void ")
     }
+    
+    func testFuncElementsEndLineIndex() {
+        let string = """
+        func createFavorite(favorite: QWFavorite,
+                            completion completionBlock: @escaping ((QWFavorite) -> ()),
+                            error errorBlock: @escaping ((NSError) -> ())){
+            self.favoritesService.createFavorite(with: favorite, completion: { [weak self] (remoteFavorite) in
+                guard let strongSelf = self else { return }
+                
+                strongSelf.favoriteRepository.save(favorite, completionBlock: {
+                    completionBlock(remoteFavorite)
+                })
+            }, error: { (err) in
+                errorBlock(err as NSError)
+            })
+        }
+        """
+        
+        let parser = SwiftFileParser(buffer: string)
+        guard let result = try? parser.getFuncElements(startLineIndex: 0) else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(result.endLineIndex, 12)
+    }
 }

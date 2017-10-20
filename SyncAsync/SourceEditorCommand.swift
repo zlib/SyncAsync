@@ -73,7 +73,8 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             }
         }
         let returnType = getReturnType(closures: closures)
-        var postAttribs = " -> \(returnType.body)\(funcElements.postAttribs)"
+        var postAttribs = returnType == SwiftType.Void() ? "" : " -> \(returnType.body)"
+        postAttribs = postAttribs + funcElements.postAttribs
         
         let isThrowing = closures.contains { (closure) -> Bool in
             return closure.isErrorClosure || closure.closureErrorParamIndex >= 0
