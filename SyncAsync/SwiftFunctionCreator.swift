@@ -153,7 +153,8 @@ class SwiftFunctionCreator {
     
     private func createNewFuncBodySwift(firstLineIndentation: String, funcName: String, params: [SwiftParam], returnType: SwiftType, isThrowing: Bool) throws -> String
     {
-        var result = "\(firstLineIndentation)let semaphore = DispatchSemaphore(value: 0)"
+        var result = "\(firstLineIndentation)assert(!Thread.isMainThread)"
+        result += "\n\(firstLineIndentation)let semaphore = DispatchSemaphore(value: 0)"
         let hasReturnValue = returnType.body != "Void"
         if hasReturnValue
         {

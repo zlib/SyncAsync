@@ -103,7 +103,7 @@ class SwiftTypeParser
             return body
         }
         var countOfExcessOpenBrackets = -1
-        for char in body[body.startIndex..<indexOfFirstClosingBracket].characters
+        for char in body[body.startIndex..<indexOfFirstClosingBracket]
         {
             if char == "("
             {
@@ -111,7 +111,7 @@ class SwiftTypeParser
             }
         }
         var newBody = body
-        var count = newBody.characters.count
+        var count = newBody.count
         var i = 0
         var charsToDelete = countOfExcessOpenBrackets
         while i < count && charsToDelete > 0
