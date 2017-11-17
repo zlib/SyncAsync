@@ -29,8 +29,9 @@ struct SwiftFileParser
         guard let nameStartIndex = try? getNameStartIndex(line: attribsAndNameSubstring) else {
             throw DefaultError
         }
-        let name = String(attribsAndNameSubstring[nameStartIndex..<attribsAndNameSubstring.endIndex])
-        let attribs = String(attribsAndNameSubstring[attribsAndNameSubstring.startIndex..<nameStartIndex].trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
+        let nameSubstring = attribsAndNameSubstring[nameStartIndex..<attribsAndNameSubstring.endIndex]
+        let name = String(nameSubstring)
+        let attribs = attribsAndNameSubstring[attribsAndNameSubstring.startIndex..<nameStartIndex].trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         
         guard let paramsResult = try? buffer.getInner(startIndex: index.encodedOffset, openChar: "(", closeChar: ")") else {
             throw DefaultError
@@ -48,18 +49,32 @@ struct SwiftFileParser
         guard let bodyResult = try? buffer.getInnerWithOpenCloseCharacters(startIndex: paramsResult.upperIndex.encodedOffset + 1, openChar: "{", closeChar: "}") else {
             throw DefaultError
         }
-        var newLines = bodyResult.substring.filter { (char) -> Bool in
-            char == "\n"
-        }
-        
         let postAttribsStartIndex = buffer.index(after: paramsResult.upperIndex)
         let postAttribs = buffer[postAttribsStartIndex..<bodyResult.lowerIndex]
-        if postAttribs.contains("\n")
+        
+        var newLinesCount = SwiftFileParser.countOfNewLines(in: attribs)
+        let substrings = [nameSubstring, paramsResult.substring, bodyResult.substring]
+        for substring in substrings
         {
-            newLines += "\n"
+            newLinesCount += SwiftFileParser.countOfNewLines(in: substring)
         }
         
-        return (attribs: attribs, name: name, params: params, postAttribs: String(postAttribs), body: String(bodyResult.substring), endLineIndex: startLineIndex + newLines.count)
+        return (attribs: attribs, name: name, params: params, postAttribs: String(postAttribs), body: String(bodyResult.substring), endLineIndex: startLineIndex + newLinesCount)
+    }
+    
+    static func countOfNewLines(in substring: Substring) -> Int
+    {
+        return substring.filter { (char) -> Bool in
+            return char == "\n"
+        }.count
+    }
+    
+    static func countOfNewLines(in string: String) -> Int
+    {
+        let strings = string.filter { (char) -> Bool in
+            return char == "\n"
+        }
+        return strings.count
     }
     
     static func getFuncFirstLineIndentation(funcBody: String) throws -> String

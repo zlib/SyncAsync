@@ -75,6 +75,10 @@ class SwiftTypeParser
                 return SwiftClosure(body: body, isCustom: true, params: [SwiftParam](), returnType: SwiftType.Void(), attributes: [String](), isEscaping: true)
             }
         }
+        if body == "()"
+        {
+            return SwiftType.Void()
+        }
         if body.hasPrefix("(")
         {
             return try getTuple(fromString: body)
@@ -93,18 +97,72 @@ class SwiftTypeParser
         return SwiftTuple(body: body, isCustom: false, params: params)
     }
     
+    fileprivate static func deleteExcessBrackets(body: String) throws -> String
+    {
+        guard let indexOfFirstClosingBracket = body.index(of: ")") else {
+            return body
+        }
+        var countOfExcessOpenBrackets = -1
+        for char in body[body.startIndex..<indexOfFirstClosingBracket].characters
+        {
+            if char == "("
+            {
+                countOfExcessOpenBrackets += 1
+            }
+        }
+        var newBody = body
+        var count = newBody.characters.count
+        var i = 0
+        var charsToDelete = countOfExcessOpenBrackets
+        while i < count && charsToDelete > 0
+        {
+            let index = newBody.index(newBody.startIndex, offsetBy: i)
+            let char = body[index]
+            if char == "("
+            {
+                newBody.remove(at: index)
+                count -= 1
+                charsToDelete -= 1
+            }
+            else
+            {
+                i += 1
+            }
+        }
+        i = newBody.count-1
+        charsToDelete = countOfExcessOpenBrackets
+        while i >= 0 && charsToDelete > 0
+        {
+            let index = newBody.index(newBody.startIndex, offsetBy: i)
+            let char = body[index]
+            if char == ")"
+            {
+                newBody.remove(at: index)
+                charsToDelete -= 1
+            }
+            else
+            {
+                i -= 1
+            }
+        }
+        return newBody
+    }
+    
     static func getClosure(fromString body: String) throws -> SwiftClosure
     {
         var attributes = [String]()
         var isEscaping = false
-        guard let paramsBody = try? body.getInner(startIndex: 0, openChar: "(", closeChar: ")") else {
-            let result = getAttributes(fromString: body)
-            return SwiftClosure(body: body, isCustom: true, params: [SwiftParam](), returnType: SwiftType.Void(), attributes: Array(result.attributes.dropLast()), isEscaping: result.isEscaping)
+        
+        let newBody = try deleteExcessBrackets(body: body)
+        
+        guard let paramsBody = try? newBody.getInner(startIndex: 0, openChar: "(", closeChar: ")") else {
+            let result = getAttributes(fromString: newBody)
+            return SwiftClosure(body: newBody, isCustom: true, params: [SwiftParam](), returnType: SwiftType.Void(), attributes: Array(result.attributes.dropLast()), isEscaping: result.isEscaping)
         }
         
         if paramsBody.lowerIndex.encodedOffset > 0
         {
-            let attributesBody = body[body.startIndex..<paramsBody.lowerIndex]
+            let attributesBody = newBody[newBody.startIndex..<paramsBody.lowerIndex]
             let result = getAttributes(fromString: String(attributesBody))
             attributes = result.attributes
             isEscaping = result.isEscaping
@@ -115,7 +173,7 @@ class SwiftTypeParser
             return try SwiftParamParser.getParam(body: paramBody)
         }
         
-        let endPart = String(body[body.index(after: paramsBody.upperIndex)..<body.endIndex])
+        let endPart = String(newBody[newBody.index(after: paramsBody.upperIndex)..<newBody.endIndex])
         let returnSymbol = "->"
         guard let range = endPart.range(of: returnSymbol) else {
             throw DefaultError
@@ -123,7 +181,7 @@ class SwiftTypeParser
         let returnTypeBody = endPart[range.upperBound..<endPart.endIndex].trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let returnType = try SwiftTypeParser.getType(fromString: String(returnTypeBody))
         
-        return SwiftClosure(body: body, isCustom: false, params: params, returnType: returnType, attributes: attributes, isEscaping: isEscaping)
+        return SwiftClosure(body: newBody, isCustom: false, params: params, returnType: returnType, attributes: attributes, isEscaping: isEscaping)
     }
     
     private static func getAttributes(fromString body: String) -> (attributes: [String], isEscaping: Bool)

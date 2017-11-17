@@ -56,7 +56,8 @@ class SwiftFunctionCreator {
             }
         }
         let returnType = getReturnType(closures: closures)
-        var postAttribs = " -> \(returnType.body)\(funcElements.postAttribs)"
+        var postAttribs = returnType == SwiftType.Void() ? "" : " -> \(returnType.body)"
+        postAttribs = postAttribs + funcElements.postAttribs
         
         let isThrowing = closures.contains { (closure) -> Bool in
             return closure.isErrorClosure || closure.closureErrorParamIndex >= 0
@@ -99,7 +100,7 @@ class SwiftFunctionCreator {
         buffer.lines.insert(result, at: funcElements.endLineIndex+1)
         completionHandler(nil)
     }
-
+    
     private func getReturnType(closures: [SwiftParam]) -> SwiftType
     {
         var result = [SwiftParam]()
@@ -131,7 +132,7 @@ class SwiftFunctionCreator {
         }
         return SwiftTuple(params: result)
     }
-
+    
     private func getFuncIdentation(bufferIndentationWidth: Int) -> String
     {
         var result = ""
@@ -141,7 +142,7 @@ class SwiftFunctionCreator {
         }
         return result
     }
-
+    
     private func isSwiftEscapingClosure(type: SwiftType) -> Bool
     {
         if let closure = type as? SwiftClosure {
@@ -149,7 +150,7 @@ class SwiftFunctionCreator {
         }
         return false
     }
-
+    
     private func createNewFuncBodySwift(firstLineIndentation: String, funcName: String, params: [SwiftParam], returnType: SwiftType, isThrowing: Bool) throws -> String
     {
         var result = "\(firstLineIndentation)let semaphore = DispatchSemaphore(value: 0)"
@@ -195,7 +196,7 @@ class SwiftFunctionCreator {
         }
         return result
     }
-
+    
     private func createClosureBody(param: SwiftParam, name: String, firstLineIndentation: String, hasReturnValue: Bool, returnType: SwiftType, result: inout String) throws
     {
         result += "\(name): {"
