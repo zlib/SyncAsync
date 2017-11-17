@@ -30,13 +30,13 @@ let resultN = doSomethingN(param: resultN-1)
 Furthermore if you write a sequence of functions with completion handlers your error handling can become a mess. If your asynchronous functions contain Error this extension generates throwable synchronous version. Thus you can handle your errors in a native swifty way:
 ```
 DispatchQueue.global().async {
-	do {
-		try doSomething1()
-		try doSomething2()
-		try doSomething3()
-	} catch {
-		print(error)
-	}
+    do {
+        try doSomething1()
+        try doSomething2()
+        try doSomething3()
+    } catch {
+        print(error)
+    }
 }
 ```
 
