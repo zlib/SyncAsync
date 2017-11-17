@@ -50,4 +50,5 @@ Do NOT call those generated synchonous functions on the main thread!
 3. Go to the System Preferences and choose 'Extensions'. Turn on SyncAsync extension.
 
 # Usage
-Click on function with escaping closure and select Editor -> SyncAsync -> Make sync
+Click on function with escaping closure and select Editor -> SyncAsync -> Make sync.
+Also you can also assign a shortcut to automatically invoke the 'Make sync' command in Xcode preferences.
