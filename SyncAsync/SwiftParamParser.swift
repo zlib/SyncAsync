@@ -48,7 +48,7 @@ class SwiftParamParser
         for i in 0..<line.count
         {
             lastIndex = line.index(line.startIndex, offsetBy: i)
-            let char = line.characters[lastIndex]
+            let char = line[lastIndex]
             
             switch char {
             case "(": depth += 1

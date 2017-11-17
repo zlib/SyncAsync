@@ -19,8 +19,8 @@ extension String
         var foundOpenChar = false
         for i in startIndex..<self.count
         {
-            let index = self.characters.index(self.startIndex, offsetBy: i)
-            let char = self.characters[index]
+            let index = self.index(self.startIndex, offsetBy: i)
+            let char = self[index]
             if char == openChar
             {
                 depth += 1
@@ -55,7 +55,7 @@ extension String
         {
             throw StringExtensionError
         }
-        return (substring: Substring(result.substring.characters.dropFirst().dropLast()),
+        return (substring: Substring(result.substring.dropFirst().dropLast()),
                lowerIndex: result.lowerIndex,
                upperIndex: result.upperIndex)
     }

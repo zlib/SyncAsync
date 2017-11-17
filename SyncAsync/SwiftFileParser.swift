@@ -68,8 +68,8 @@ struct SwiftFileParser
         var found = false
         for i in 0..<funcBody.count
         {
-            let index = funcBody.characters.index(funcBody.startIndex, offsetBy: i)
-            let char = funcBody.characters[index]
+            let index = funcBody.index(funcBody.startIndex, offsetBy: i)
+            let char = funcBody[index]
             if char == "\n"
             {
                 found = true
@@ -94,7 +94,7 @@ struct SwiftFileParser
         for i in (0..<line.count).reversed()
         {
             let index = line.index(line.startIndex, offsetBy: i)
-            let char = line.characters[index]
+            let char = line[index]
             if CharacterSet.whitespacesAndNewlines.contains(char.unicodeScalars.first!)
             {
                 return line.index(line.startIndex, offsetBy: i+1)

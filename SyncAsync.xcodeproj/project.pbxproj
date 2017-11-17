@@ -33,6 +33,7 @@
 		7C7731541F89742B0058A911 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7731531F89742B0058A911 /* StringExtensions.swift */; };
 		7C7731561F8976E60058A911 /* StringExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7731551F8976E60058A911 /* StringExtensionTests.swift */; };
 		7C7731571F8976EE0058A911 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7731531F89742B0058A911 /* StringExtensions.swift */; };
+		7CA987341FBF734400C61F50 /* SwiftFunctionCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA987321FBF72DC00C61F50 /* SwiftFunctionCreator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		7C77314A1F8932A10058A911 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C7731531F89742B0058A911 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		7C7731551F8976E60058A911 /* StringExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionTests.swift; sourceTree = "<group>"; };
+		7CA987321FBF72DC00C61F50 /* SwiftFunctionCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftFunctionCreator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 				7C0B68C11F9286D900409B44 /* SwiftType.swift */,
 				7C7731531F89742B0058A911 /* StringExtensions.swift */,
 				7C0B68CA1F92A8A800409B44 /* Errors.swift */,
+				7CA987321FBF72DC00C61F50 /* SwiftFunctionCreator.swift */,
 			);
 			path = SyncAsync;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				7C0B68C21F9286D900409B44 /* SwiftType.swift in Sources */,
 				7C0B68CB1F92A8A800409B44 /* Errors.swift in Sources */,
 				7C7731341F891C130058A911 /* SourceEditorCommand.swift in Sources */,
+				7CA987341FBF734400C61F50 /* SwiftFunctionCreator.swift in Sources */,
 				7C0B68CE1F92B56A00409B44 /* SwiftParamParser.swift in Sources */,
 				7C7731411F8930410058A911 /* SwiftFileParser.swift in Sources */,
 				7C0B68D11F97C15C00409B44 /* SwiftTypeDefaultValueCreator.swift in Sources */,
