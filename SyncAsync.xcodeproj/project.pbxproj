@@ -19,6 +19,9 @@
 		7C0B68CE1F92B56A00409B44 /* SwiftParamParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B68CD1F92B56A00409B44 /* SwiftParamParser.swift */; };
 		7C0B68CF1F92B83400409B44 /* SwiftParamParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B68CD1F92B56A00409B44 /* SwiftParamParser.swift */; };
 		7C0B68D11F97C15C00409B44 /* SwiftTypeDefaultValueCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B68D01F97C15C00409B44 /* SwiftTypeDefaultValueCreator.swift */; };
+		7C3AFBF41FBF7B2B00B2E89D /* SwiftFunctionCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3AFBF31FBF7B2B00B2E89D /* SwiftFunctionCreatorTests.swift */; };
+		7C3AFBF51FBF7BB600B2E89D /* SwiftFunctionCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA987321FBF72DC00C61F50 /* SwiftFunctionCreator.swift */; };
+		7C3AFBF61FBF7CD100B2E89D /* SwiftTypeDefaultValueCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B68D01F97C15C00409B44 /* SwiftTypeDefaultValueCreator.swift */; };
 		7C7731191F891C080058A911 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7731181F891C080058A911 /* AppDelegate.swift */; };
 		7C77311B1F891C080058A911 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C77311A1F891C080058A911 /* ViewController.swift */; };
 		7C77311D1F891C080058A911 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C77311C1F891C080058A911 /* Assets.xcassets */; };
@@ -75,6 +78,7 @@
 		7C0B68CA1F92A8A800409B44 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		7C0B68CD1F92B56A00409B44 /* SwiftParamParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftParamParser.swift; sourceTree = "<group>"; };
 		7C0B68D01F97C15C00409B44 /* SwiftTypeDefaultValueCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTypeDefaultValueCreator.swift; sourceTree = "<group>"; };
+		7C3AFBF31FBF7B2B00B2E89D /* SwiftFunctionCreatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftFunctionCreatorTests.swift; sourceTree = "<group>"; };
 		7C7731151F891C080058A911 /* SyncAsync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SyncAsync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C7731181F891C080058A911 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7C77311A1F891C080058A911 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 				7C0B68C51F92A79B00409B44 /* SwiftTypeParserTests.swift */,
 				7C7731481F8932A10058A911 /* SwiftFileParserTests.swift */,
 				7C7731551F8976E60058A911 /* StringExtensionTests.swift */,
+				7C3AFBF31FBF7B2B00B2E89D /* SwiftFunctionCreatorTests.swift */,
 			);
 			path = XcodeExtensionsTests;
 			sourceTree = "<group>";
@@ -355,6 +360,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C3AFBF61FBF7CD100B2E89D /* SwiftTypeDefaultValueCreator.swift in Sources */,
+				7C3AFBF51FBF7BB600B2E89D /* SwiftFunctionCreator.swift in Sources */,
+				7C3AFBF41FBF7B2B00B2E89D /* SwiftFunctionCreatorTests.swift in Sources */,
 				7C7731571F8976EE0058A911 /* StringExtensions.swift in Sources */,
 				7C0B68C81F92A84600409B44 /* SwiftType.swift in Sources */,
 				7C0B68CF1F92B83400409B44 /* SwiftParamParser.swift in Sources */,

@@ -7,101 +7,12 @@
 //
 
 import Foundation
-import XcodeKit
+
+let StandardIndentation = "    "
 
 class SwiftFunctionCreator {
-
-    func createSyncFunction(buffer: XCSourceTextBuffer, startLineIndex: Int, completionHandler: @escaping (Error?) -> Void)
-    {
-        let parser = SwiftFileParser(buffer: buffer.completeBuffer)
-        guard let funcElements = try? parser.getFuncElements(startLineIndex: startLineIndex) else {
-            completionHandler(DefaultError)
-            return
-        }
-        
-        if funcElements.postAttribs.contains(where: { (char) -> Bool in
-            return !CharacterSet.whitespacesAndNewlines.contains(char.unicodeScalars.first!)
-        }) {
-            completionHandler(DefaultError)
-            return
-        }
-        var closures = funcElements.params.filter({ (param) -> Bool in
-            return isSwiftEscapingClosure(type: param.type)
-        })
-        if closures.count == 0 || closures.count > 2
-        {
-            completionHandler(DefaultError)
-            return
-        }
-        for i in 0..<closures.count
-        {
-            let closure = closures[i]
-            guard let type = closure.type as? SwiftClosure else {
-                completionHandler(DefaultError)
-                return
-            }
-            if closure.name!.contains("error") || (closure.type.body.contains("Error") && !closure.type.body.contains("("))
-            {
-                closure.isErrorClosure = true
-                break
-            }
-            for i in 0..<type.params.count
-            {
-                let param = type.params[i]
-                if param.name == "error" || param.type.body.contains("Error")
-                {
-                    closure.closureErrorParamIndex = i
-                    break
-                }
-            }
-        }
-        let returnType = getReturnType(closures: closures)
-        var postAttribs = returnType == SwiftType.Void() ? "" : " -> \(returnType.body)"
-        postAttribs = postAttribs + funcElements.postAttribs
-        
-        let isThrowing = closures.contains { (closure) -> Bool in
-            return closure.isErrorClosure || closure.closureErrorParamIndex >= 0
-        }
-        if isThrowing
-        {
-            postAttribs = " throws" + postAttribs
-        }
-        
-        let funcIndentation = getFuncIdentation(bufferIndentationWidth: buffer.indentationWidth)
-        
-        let funcName = funcElements.name.hasSuffix("Async") ? String(funcElements.name.dropLast(5)) : funcElements.name
-        var result = "\n\(funcIndentation)\(funcElements.attribs) \(funcName)Sync("
-        for i in 0..<funcElements.params.count
-        {
-            let param = funcElements.params[i]
-            if !isSwiftEscapingClosure(type: param.type)
-            {
-                if i > 0
-                {
-                    result += ", "
-                }
-                result += param.body
-            }
-        }
-        guard let firstLineIndentation = try? SwiftFileParser.getFuncFirstLineIndentation(funcBody: funcElements.body) else {
-            completionHandler(DefaultError)
-            return
-        }
-        guard let newBody = try? createNewFuncBodySwift(firstLineIndentation: firstLineIndentation, funcName: funcElements.name, params: funcElements.params, returnType: returnType, isThrowing: isThrowing) else {
-            completionHandler(DefaultError)
-            return
-        }
-        result += ")\(postAttribs){\n\(newBody)\n\(funcIndentation)}"
-        
-        if buffer.lines.count == funcElements.endLineIndex-1
-        {
-            buffer.lines.add("")
-        }
-        buffer.lines.insert(result, at: funcElements.endLineIndex+1)
-        completionHandler(nil)
-    }
     
-    private func getReturnType(closures: [SwiftParam]) -> SwiftType
+    func getReturnType(closures: [SwiftParam]) -> SwiftType
     {
         var result = [SwiftParam]()
         for i in 0..<closures.count
@@ -133,7 +44,7 @@ class SwiftFunctionCreator {
         return SwiftTuple(params: result)
     }
     
-    private func getFuncIdentation(bufferIndentationWidth: Int) -> String
+    func getFuncIndentation(bufferIndentationWidth: Int) -> String
     {
         var result = ""
         for _ in 0..<bufferIndentationWidth
@@ -143,7 +54,35 @@ class SwiftFunctionCreator {
         return result
     }
     
-    private func isSwiftEscapingClosure(type: SwiftType) -> Bool
+    func getFuncFirstLineIndentation(funcBody: String) throws -> String
+    {
+        var result = ""
+        if funcBody.count < 2 {
+            throw DefaultError
+        }
+        let body = funcBody[funcBody.index(after: funcBody.startIndex)...funcBody.index(before: funcBody.endIndex)]
+        let lines = body.split(separator: "\n")
+        for line in lines
+        {
+            result = ""
+            for i in 0..<line.count
+            {
+                let index = line.index(line.startIndex, offsetBy: i)
+                let char = line[index]
+                if CharacterSet.whitespacesAndNewlines.contains(char.unicodeScalars.first!)
+                {
+                    result += String(char)
+                }
+                else
+                {
+                    return result
+                }
+            }
+        }
+        throw DefaultError
+    }
+    
+    func isSwiftEscapingClosure(type: SwiftType) -> Bool
     {
         if let closure = type as? SwiftClosure {
             return closure.isEscaping
@@ -151,7 +90,7 @@ class SwiftFunctionCreator {
         return false
     }
     
-    private func createNewFuncBodySwift(firstLineIndentation: String, funcName: String, params: [SwiftParam], returnType: SwiftType, isThrowing: Bool) throws -> String
+    func createNewFuncBodySwift(firstLineIndentation: String, funcName: String, params: [SwiftParam], returnType: SwiftType, isThrowing: Bool) throws -> String
     {
         var result = "\(firstLineIndentation)assert(!Thread.isMainThread)"
         result += "\n\(firstLineIndentation)let semaphore = DispatchSemaphore(value: 0)"
@@ -198,7 +137,7 @@ class SwiftFunctionCreator {
         return result
     }
     
-    private func createClosureBody(param: SwiftParam, name: String, firstLineIndentation: String, hasReturnValue: Bool, returnType: SwiftType, result: inout String) throws
+    func createClosureBody(param: SwiftParam, name: String, firstLineIndentation: String, hasReturnValue: Bool, returnType: SwiftType, result: inout String) throws
     {
         result += "\(name): {"
         let closure = param.type as! SwiftClosure

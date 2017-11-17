@@ -77,33 +77,6 @@ struct SwiftFileParser
         return strings.count
     }
     
-    static func getFuncFirstLineIndentation(funcBody: String) throws -> String
-    {
-        var result = ""
-        var found = false
-        for i in 0..<funcBody.count
-        {
-            let index = funcBody.index(funcBody.startIndex, offsetBy: i)
-            let char = funcBody[index]
-            if char == "\n"
-            {
-                found = true
-            }
-            else if found
-            {
-                if CharacterSet.whitespacesAndNewlines.contains(char.unicodeScalars.first!)
-                {
-                    result += " "
-                }
-                else
-                {
-                    return result
-                }
-            }
-        }
-        throw DefaultError
-    }
-    
     private func getNameStartIndex(line: Substring) throws -> String.Index
     {
         for i in (0..<line.count).reversed()
