@@ -40,9 +40,6 @@ DispatchQueue.global().async {
 }
 ```
 
-# WARNING!
-Do NOT call those generated synchonous functions on the main thread!
-
 # Installation
 
 1. Download the app from here: https://drive.google.com/open?id=12QoDEyQ35nZ9XIq7wwyJknA1g6SRs7w4 or build it from sources.
@@ -52,3 +49,6 @@ Do NOT call those generated synchonous functions on the main thread!
 # Usage
 Click on function with escaping closure and select Editor -> SyncAsync -> Make sync.
 You can also assign a shortcut to automatically invoke the 'Make sync' command. Go to Xcode's preferences and choose 'Key Bindings' tab.
+
+# WARNING!
+Do NOT call those generated synchonous functions on the main thread!
