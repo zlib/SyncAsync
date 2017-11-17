@@ -27,7 +27,7 @@ let result3 = doSomething3(param: result2)
 let resultN = doSomethingN(param: resultN-1)
 ```
 
-Furthermore if you write a sequence of functions with completion handlers your error handling can become a mess. If your completion handlers contain Error object this extension generates a throwable synchronous version. Thus you can handle your errors in a native swifty way:
+Furthermore, if you call a sequence of functions with escaping closures your error handling can become a mess. If your completion handlers contain Error object this extension generates a throwable synchronous version. Thus you can handle your errors in a native swifty way:
 ```
 DispatchQueue.global().async {
     do {
