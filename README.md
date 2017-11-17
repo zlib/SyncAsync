@@ -14,7 +14,7 @@ And you want to have a synchronous version of that. Something like this:
 func doSomethingSync(param: Int)
 ```
 
-You can do it easily with this Xcode extension. 
+You can do it with this Xcode extension. 
 
 # Is it useful?
 
