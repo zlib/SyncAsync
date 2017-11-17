@@ -51,4 +51,4 @@ Do NOT call those generated synchonous functions on the main thread!
 
 # Usage
 Click on function with escaping closure and select Editor -> SyncAsync -> Make sync.
-Also you can also assign a shortcut to automatically invoke the 'Make sync' command in Xcode preferences.
+You can also assign a shortcut to automatically invoke the 'Make sync' command in Xcode preferences.
