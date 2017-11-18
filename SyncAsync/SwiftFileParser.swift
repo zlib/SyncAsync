@@ -53,7 +53,7 @@ struct SwiftFileParser
         let postAttribs = buffer[postAttribsStartIndex..<bodyResult.lowerIndex]
         
         var newLinesCount = SwiftFileParser.countOfNewLines(in: attribs)
-        let substrings = [nameSubstring, paramsResult.substring, bodyResult.substring]
+        let substrings = [nameSubstring, paramsResult.substring, postAttribs, bodyResult.substring]
         for substring in substrings
         {
             newLinesCount += SwiftFileParser.countOfNewLines(in: substring)

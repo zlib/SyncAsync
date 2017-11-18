@@ -36,7 +36,8 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             return
         }
         
-        if funcElements.postAttribs.contains(where: { (char) -> Bool in
+        let postAttribsResult = funcElements.postAttribs.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).replacingOccurrences(of: "->", with: "").replacingOccurrences(of: "Void", with: "")
+        if postAttribsResult.contains(where: { (char) -> Bool in
             return !CharacterSet.whitespacesAndNewlines.contains(char.unicodeScalars.first!)
         }) {
             completionHandler(DefaultError)
