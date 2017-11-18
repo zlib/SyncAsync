@@ -42,7 +42,7 @@ DispatchQueue.global().async {
 
 # Installation
 
-1. Download the app from here: https://drive.google.com/open?id=12QoDEyQ35nZ9XIq7wwyJknA1g6SRs7w4 or build it from sources.
+1. Download the app from here: https://drive.google.com/open?id=1meyP0ymxGA-qmfeVYDy-YwhUw_AsE4Wx or build it from sources.
 2. Copy the app to the Applications folder.
 3. Go to the System Preferences and choose 'Extensions'. Turn on SyncAsync extension.
 
