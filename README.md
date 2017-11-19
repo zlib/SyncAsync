@@ -1,7 +1,7 @@
 # What is it?
 
 Let's assume you have a method like this:
-```
+```swift
 func doSomething(param: Int, completionHandler: @escaping () -> Void) {
     DispatchQueue.global().async {
         print(param)
@@ -10,7 +10,7 @@ func doSomething(param: Int, completionHandler: @escaping () -> Void) {
 }
 ```
 And you want to have a synchronous version of that. Something like this:
-```
+```swift
 func doSomethingSync(param: Int)
 ```
 
@@ -19,7 +19,7 @@ You can do it with this Xcode extension.
 # Is it useful?
 
 Sometimes in order to make next request you need to wait for result of a previous one:
-```
+```swift
 let result1 = doSomething1()
 let result2 = doSomething2(param: result1)
 let result3 = doSomething3(param: result2)
@@ -28,7 +28,7 @@ let resultN = doSomethingN(param: resultN-1)
 ```
 
 Furthermore, if you call a sequence of functions with escaping closures your error handling can become a mess. If your completion handlers contain Error object this extension generates a throwable synchronous version. Thus you can handle your errors in a native swifty way:
-```
+```swift
 DispatchQueue.global().async {
     do {
         try doSomething1()
@@ -44,7 +44,7 @@ DispatchQueue.global().async {
 
 ## Example 1
 Source function:
-```
+```swift
 func doSomethingAsync(param: String, completion: @escaping () -> ()) {
     DispatchQueue.global().async {
         print(param)
@@ -54,7 +54,7 @@ func doSomethingAsync(param: String, completion: @escaping () -> ()) {
 ```
 
 Generated function:
-```
+```swift
 func doSomethingSync(param: String) {
     assert(!Thread.isMainThread)
     let semaphore = DispatchSemaphore(value: 0)
@@ -67,7 +67,7 @@ func doSomethingSync(param: String) {
 
 ## Example 2
 Source function:
-```
+```swift
 func doSomething(a: CustomType, b: CustomType, complete: @escaping (CustomType?, Error?) -> Void) {
     DispatchQueue.global().async {
         guard let result = try? someOperation(a, b) else {
@@ -80,7 +80,7 @@ func doSomething(a: CustomType, b: CustomType, complete: @escaping (CustomType?,
 ```
 
 Generated function:
-```
+```swift
 func doSomethingSync(a: CustomType, b: CustomType) throws -> CustomType? {
     assert(!Thread.isMainThread)
     let semaphore = DispatchSemaphore(value: 0)
@@ -101,7 +101,7 @@ func doSomethingSync(a: CustomType, b: CustomType) throws -> CustomType? {
 
 ## Example 3
 Source function:
-```
+```swift
 func doSomething(a: Int, b: Int, complete: @escaping (Int, Int) -> Void, fail: @escaping (Error) -> Void) {
     DispatchQueue.global().async {
         print(a)
@@ -118,7 +118,7 @@ func doSomething(a: Int, b: Int, complete: @escaping (Int, Int) -> Void, fail: @
 ```
 
 Generated function:
-```
+```swift
 func doSomethingSync(a: Int, b: Int) throws -> (Int, Int) {
     assert(!Thread.isMainThread)
     let semaphore = DispatchSemaphore(value: 0)
