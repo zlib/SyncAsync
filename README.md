@@ -47,7 +47,7 @@ Source function:
 ```swift
 func doSomethingAsync(param innerName: String, completion: @escaping () -> ()) -> Void {
     DispatchQueue.global().async {
-        print(param)
+        print(innerName)
         completion()
     }
 }
