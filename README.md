@@ -45,7 +45,7 @@ DispatchQueue.global().async {
 ## Example 1
 Source function:
 ```
-func doSomething(param: String, completion: @escaping () -> ()) {
+func doSomethingAsync(param: String, completion: @escaping () -> ()) {
     DispatchQueue.global().async {
         print(param)
         completion()
