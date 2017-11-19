@@ -30,21 +30,6 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             completionHandler(DefaultError)
         }
     }
-
-    func performSync(with invocation: XCSourceEditorCommandInvocation) throws -> Void
-    {
-        assert(!Thread.isMainThread)
-        let semaphore = DispatchSemaphore(value: 0)
-        var resultError: Error? = nil
-        perform(with: invocation, completionHandler: { (error) in
-            resultError = error
-            semaphore.signal()
-        })
-        let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
-        if resultError != nil {
-            throw resultError!
-        }
-    }
     
     func createSyncFunction(buffer: XCSourceTextBuffer, startLineIndex: Int, completionHandler: @escaping (Error?) -> Void)
     {
