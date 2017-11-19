@@ -97,11 +97,11 @@ class SwiftFunctionCreator {
         let hasReturnValue = returnType.body != "Void"
         if hasReturnValue
         {
-            result += "\n\(firstLineIndentation)var syncResult: \(returnType.body) = \(returnType.defaultValue())"
+            result += try "\n\(firstLineIndentation)var syncResult: \(returnType.body) = \(returnType.defaultValue())"
         }
         if isThrowing
         {
-            result += "\n\(firstLineIndentation)var resultError: Error?"
+            result += "\n\(firstLineIndentation)var resultError: Error? = nil"
         }
         result += "\n\(firstLineIndentation)\(funcName)("
         
@@ -142,11 +142,8 @@ class SwiftFunctionCreator {
         result += "\(name): {"
         let closure = param.type as! SwiftClosure
         var indexOfErrorParam = -1
-        if param.isErrorClosure
-        {
-            result += " error in\n\(firstLineIndentation)\(StandardIndentation)resultError = error"
-        }
-        else if closure.params.count > 0
+        
+        if closure.params.count > 0
         {
             result += " ("
             for j in 0..<closure.params.count
@@ -166,18 +163,18 @@ class SwiftFunctionCreator {
             }
             result += ") in"
         }
-        
         if indexOfErrorParam >= 0
         {
             let error = closure.params[indexOfErrorParam].name ?? "error"
             result += "\n\(firstLineIndentation)\(StandardIndentation)resultError = \(error)"
         }
+        
         if hasReturnValue && !param.isErrorClosure
         {
             result += "\n\(firstLineIndentation)\(StandardIndentation)syncResult = "
             if closure.params.count > 0
             {
-                if (closure.params.count == 1 || (closure.params.count == 2 && indexOfErrorParam >= 0)) && indexOfErrorParam != 0
+                if (closure.params.count == 1 && indexOfErrorParam != 0) || (closure.params.count == 2 && indexOfErrorParam >= 0)
                 {
                     result += closure.params[0].name ?? "param0"
                 }

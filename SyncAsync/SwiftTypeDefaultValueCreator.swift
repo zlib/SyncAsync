@@ -10,11 +10,11 @@ import Foundation
 
 extension SwiftType
 {
-    func defaultValue() -> String
+    func defaultValue() throws -> String
     {
         if genericType != nil || body.hasPrefix("[") || isCustom
         {
-            return body + "()"
+            return body.replacingOccurrences(of: "?", with: "").replacingOccurrences(of: "!", with: "") + "()"
         }
         if body == "String"
         {
@@ -24,6 +24,23 @@ extension SwiftType
         {
             return "nil"
         }
+        if self is SwiftTuple
+        {
+            guard let tuple = self as? SwiftTuple else {
+                throw SwiftTypeDefaultValueError
+            }
+            var result = "("
+            for i in 0..<tuple.params.count
+            {
+                if i > 0
+                {
+                    result += ", "
+                }
+                result += try tuple.params[i].type.defaultValue()
+            }
+            result += ")"
+            return result
+        }
         for number in numberTypes
         {
             if number == body
@@ -31,6 +48,6 @@ extension SwiftType
                 return "0"
             }
         }
-        return ""
+        return "nil"
     }
 }

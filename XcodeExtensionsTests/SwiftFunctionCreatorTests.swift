@@ -11,7 +11,7 @@ import XCTest
 class SwiftFunctionCreatorTests: XCTestCase {
     
     func testFirstLineIndentationWithFirstEmptyLine() {
-        let string = "\n        \n        DispatchQueue.global(qos: .utility).async\n}"
+        let string = "\n        \n        DispatchQueue.global().async\n}"
         
         let creator = SwiftFunctionCreator()
         guard let result = try? creator.getFuncFirstLineIndentation(funcBody: string) else {

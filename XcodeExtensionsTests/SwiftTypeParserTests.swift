@@ -44,7 +44,7 @@ class SwiftTypeParserTests: XCTestCase {
     }
     
     func testEscapingClosureWithManyBrackets() {
-        let string = "@escaping ((QWFavorite) -> ())"
+        let string = "@escaping ((MyType) -> ())"
         
         guard let result = try? SwiftTypeParser.getType(fromString: string) else {
             XCTFail()
@@ -56,7 +56,7 @@ class SwiftTypeParserTests: XCTestCase {
             return
         }
 
-        XCTAssertEqual(closureType.body, "@escaping (QWFavorite) -> ()")
+        XCTAssertEqual(closureType.body, "@escaping (MyType) -> ()")
         XCTAssertEqual(closureType.genericType, nil)
         XCTAssertEqual(closureType.isCustom, false)
         XCTAssertEqual(closureType.attributes.count, 1)
@@ -64,7 +64,7 @@ class SwiftTypeParserTests: XCTestCase {
         XCTAssertEqual(closureType.isEscaping, true)
         XCTAssertEqual(closureType.returnType, SwiftType.Void())
         XCTAssertEqual(closureType.params.count, 1)
-        XCTAssertEqual(closureType.params[0].body, "QWFavorite")
+        XCTAssertEqual(closureType.params[0].body, "MyType")
     }
 
 }
