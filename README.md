@@ -1,10 +1,12 @@
 # SyncAsync
 An Xcode extension for Swift which makes a synchronous method from asynchronous one.
 
+![Preview](showcase.gif)
+
 ## What is it?
 Let's assume you have a method like this:
 ```swift
-func doSomething(param: Int, completionHandler: @escaping () -> Void) {
+func doSomethingAsync(param: Int, completionHandler: @escaping () -> Void) {
     DispatchQueue.global().async {
         print(param)
         completionHandler()
