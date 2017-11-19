@@ -40,6 +40,30 @@ DispatchQueue.global().async {
 }
 ```
 
+# Examples
+
+## Example 1
+Source function:
+```
+func doSomething(param: String, completion: @escaping () -> ()) {
+    DispatchQueue.global().async {
+        print(param)
+        completion()
+    }
+}
+```
+Generated method:
+```
+func doSomethingSync(param: String) {
+    assert(!Thread.isMainThread)
+    let semaphore = DispatchSemaphore(value: 0)
+    doSomething(param: param, completion: {
+        semaphore.signal()
+    })
+    let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+}
+```
+
 # Installation
 
 1. Download the app from here: https://drive.google.com/open?id=1meyP0ymxGA-qmfeVYDy-YwhUw_AsE4Wx or build it from sources.
