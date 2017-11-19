@@ -1,5 +1,7 @@
-# What is it?
+# SyncAsync
+An Xcode extension for Swift which makes a synchronous method from asynchronous one.
 
+## What is it?
 Let's assume you have a method like this:
 ```swift
 func doSomething(param: Int, completionHandler: @escaping () -> Void) {
@@ -16,8 +18,7 @@ func doSomethingSync(param: Int)
 
 You can do it with this Xcode extension. 
 
-# Is it useful?
-
+## Is it useful?
 Sometimes in order to make next request you need to wait for result of a previous one:
 ```swift
 let result1 = doSomething1()
@@ -40,9 +41,9 @@ DispatchQueue.global().async {
 }
 ```
 
-# Examples
+## Examples
 
-## Example 1
+### Example 1
 Source function:
 ```swift
 func doSomethingAsync(param innerName: String, completion: @escaping () -> ()) -> Void {
@@ -65,7 +66,7 @@ func doSomethingSync(param innerName: String) -> Void {
 }
 ```
 
-## Example 2
+### Example 2
 Source function:
 ```swift
 func doSomething(a: CustomType, b: CustomType, complete: @escaping (CustomType?, Error?) -> Void)
@@ -101,7 +102,7 @@ func doSomethingSync(a: CustomType, b: CustomType) throws -> CustomType?
 }
 ```
 
-## Example 3
+### Example 3
 Source function:
 ```swift
 func doSomething(a: Int, b: Int, complete: @escaping (Int, Int) -> Void, fail: @escaping (Error) -> Void) {
@@ -141,22 +142,21 @@ func doSomethingSync(a: Int, b: Int) throws -> (Int, Int) {
 }
 ```
 
-# Installation
-
+## Installation
 1. Download the app from here: https://drive.google.com/open?id=1iUXEjB-_EVaO0egxSLucl91g1_LYgo1g or build it from sources.
 2. Copy the app to the Applications folder.
 3. Go to the System Preferences and choose 'Extensions'. Turn on SyncAsync extension.
 
-# Usage
+## Usage
 Click on function with escaping closure and select Editor -> SyncAsync -> Make sync.
 
 You can also assign a shortcut to automatically invoke the 'Make sync' command. Go to Xcode's preferences and choose 'Key Bindings' tab.
 
-# WARNING!
+## WARNING!
 Do NOT call those generated synchonous functions on the main thread!
 
-# Author
+## Author
 Mikhail Motyzhenkov, m.motyzhenkov@gmail.com
 
-# License
+## License
 SyncAsync is available under the MIT license.
