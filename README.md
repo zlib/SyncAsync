@@ -45,7 +45,7 @@ DispatchQueue.global().async {
 ## Example 1
 Source function:
 ```swift
-func doSomethingAsync(param: String, completion: @escaping () -> ()) -> Void {
+func doSomethingAsync(param innerName: String, completion: @escaping () -> ()) -> Void {
     DispatchQueue.global().async {
         print(param)
         completion()
@@ -55,10 +55,10 @@ func doSomethingAsync(param: String, completion: @escaping () -> ()) -> Void {
 
 Generated function:
 ```swift
-func doSomethingSync(param: String) {
+func doSomethingSync(param innerName: String) -> Void {
     assert(!Thread.isMainThread)
     let semaphore = DispatchSemaphore(value: 0)
-    doSomething(param: param, completion: {
+    doSomethingAsync(param: innerName, completion: {
         semaphore.signal()
     })
     let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
