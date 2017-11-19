@@ -68,7 +68,7 @@ func doSomethingSync(param: String) {
 ## Example 2
 Source function:
 ```swift
-func doSomething(a: CustomType, b: CustomType, complete: @escaping (CustomType?, Error?) -> Void) 
+func doSomething(a: CustomType, b: CustomType, complete: @escaping (CustomType?, Error?) -> Void)
 {
     DispatchQueue.global().async {
         guard let result = try? someOperation(a, b) else {
@@ -82,12 +82,12 @@ func doSomething(a: CustomType, b: CustomType, complete: @escaping (CustomType?,
 
 Generated function:
 ```swift
-func doSomethingSync(a: CustomType, b: CustomType) throws -> CustomType? 
+func doSomethingSync(a: CustomType, b: CustomType) throws -> CustomType?
 {
     assert(!Thread.isMainThread)
     let semaphore = DispatchSemaphore(value: 0)
     var syncResult: CustomType? = CustomType()
-    var resultError: Error?
+    var resultError: Error? = nil
     doSomething(a: a, b: b, complete: { (param0, error) in
         resultError = error
         syncResult = param0
