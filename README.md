@@ -125,7 +125,7 @@ func doSomethingSync(a: Int, b: Int) throws -> (Int, Int) {
     assert(!Thread.isMainThread)
     let semaphore = DispatchSemaphore(value: 0)
     var syncResult: (Int, Int) = (0, 0)
-    var resultError: Error?
+    var resultError: Error? = nil
     doSomething(a: a, b: b, complete: { (param0, param1) in
         syncResult = (param0, param1)
         semaphore.signal()
