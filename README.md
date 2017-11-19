@@ -48,7 +48,14 @@ DispatchQueue.global().async {
 
 # Usage
 Click on function with escaping closure and select Editor -> SyncAsync -> Make sync.
+
 You can also assign a shortcut to automatically invoke the 'Make sync' command. Go to Xcode's preferences and choose 'Key Bindings' tab.
 
 # WARNING!
 Do NOT call those generated synchonous functions on the main thread!
+
+# Author
+Mikhail Motyzhenkov, m.motyzhenkov@gmail.com
+
+# License
+SyncAsync is available under the MIT license.
